@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project title="Avaliação de Risco de Seguro de Automóveis">
+  <data>
+	<input type="features_label" split_percentage="70"></input>
+    <feature name="nome" content="text" irrelevant="true"></feature>
+    <feature name="CPF" content="text" irrelevant="true"></feature>
+    <feature name="idade" content="int" min="18" max="80" null_fill="medium"></feature>
+    <feature name="população_cidade_reside"
+			 content="pequena | média | grande | metrópole"></feature>
+    <feature name="residência"
+			 content="casa | apto | condomínio_fechado | edícula"></feature>
+    <feature name="tempo_habilitação" content="int" min="0" max="10"
+			 null_fill="medium"></feature>
+    <feature name="garagem_residência" content="boolean"></feature>
+    <feature name="estacionamento_trabalho" content="boolean"></feature>
+	<feature name="dispositivo_antifurto" content="boolean"></feature>
+	<feature name="outro_condutor_menor_26_anos" content="boolean"></feature>
+    <label name="risco" content="alto | médio | baixo" join="true"></label>
+  </data>
+  <network seed="123" loss_funtion="MCXENT" optimization="STOCHASTIC_GRADIENT_DESCENT"
+           updater="Adam" learning_rate="0.01" pretrain="false" back_propagation="true">
+    <layer type="DenseLayer" random="XAVIER" activation="RELU" input="8"
+		   output="16"></layer>
+    <layer type="DenseLayer" random="XAVIER" activation="RELU" input="16"
+		   output="32"></layer>
+    <layer type="DenseLayer" random="XAVIER" activation="RELU" input="32"
+		   output="16"></layer>
+    <layer type="OutputLayer" random="XAVIER" activation="SOFTMAX" input="16"
+	       output="3"></layer>
+  </network>
+  <hyper_parameters epochs_n="1000" batch_size="20"></hyper_parameters>
+  <metrics>accuracy - precision - recall - F1</metrics>
+</project>
